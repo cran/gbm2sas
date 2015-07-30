@@ -42,8 +42,9 @@ words2b<-gsub("do_", prefix, words2b)
 words3<-gsub("do_", prefix, words3)
 }
 thevarnames<-gbmobject$var.names
-types<-lapply (lapply(data[,gbmobject$var.names],class), function(i) ifelse (strsplit(i[1]," ")[1]=="ordered","ordered",i))
-levels<-lapply(data[,gbmobject$var.names],levels)
+thevarnames2 <- as.list(gbmobject$var.names)
+types<-lapply(lapply(thevarnames2,class), function(i) ifelse (strsplit(i[1]," ")[1]=="ordered","ordered",i))
+levels<-lapply(thevarnames2,levels)
 for(loop in 1:hmmt) {
 prepwords<-paste("if do_", (loop-1), ">0 then do;", sep="")
 if(hasprefix) prepwords<-gsub("do_", prefix, prepwords)
