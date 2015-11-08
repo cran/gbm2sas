@@ -1,3 +1,4 @@
 exportPattern("^[[:alpha:]]+")
 import(gbm)
+importFrom("utils", "write.table")
 

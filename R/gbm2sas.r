@@ -1,5 +1,7 @@
-gbm2sas<-function(
+gbm2sas <-
+function(
 gbmobject,
+data=NULL,
 sasfile=NULL,
 ntrees=NULL,
 mysasdata="mysasdata",

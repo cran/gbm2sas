@@ -10,6 +10,7 @@ are as reported by the gbm package function pretty.gbm.tree.
 \usage{
 gbm2sas(
 gbmobject,
+data=NULL,
 sasfile=NULL,
 ntrees=NULL,
 mysasdata="mysasdata",
@@ -20,6 +21,9 @@ prefix="do_"
 \arguments{
   \item{gbmobject}{
 An object of type gbm.object.                     
+}
+\item{data}{
+Data used to fit gbm.object.
 }
   \item{sasfile}{
 Name of file to write the SAS code to. 
@@ -69,12 +73,12 @@ Y <- Y + rnorm(N,0,sigma)
 X1[sample(1:N,size=500)] <- NA
 X4[sample(1:N,size=300)] <- NA
 
-data <- data.frame(Y=Y,X1=X1,X2=X2,X3=X3,X4=X4,X5=X5,X6=X6)
+thedata <- data.frame(Y=Y,X1=X1,X2=X2,X3=X3,X4=X4,X5=X5,X6=X6)
 
 # fit initial model
 gbm1 <-
 gbm(Y~X1+X2+X3+X4+X5+X6,         
-    data=data,                   
+    data=thedata,                   
     var.monotone=c(0,0,0,0,0,0), 
     distribution="gaussian",     
     n.trees=1000,               
@@ -90,7 +94,7 @@ gbm(Y~X1+X2+X3+X4+X5+X6,
 
 # We will pass a csv file to SAS, to demonstrate that the tree values from gbm2sas agree 
 # with R.  Note that if train.fraction were <1 above, we would need to pass the 
-# analogous subsample to gbm2sas via the csv file below. Since the fraction used was 1, 
+# analogous subsample to sas via the csv file below. Since the fraction used was 1, 
 # we pass the entire dataset "data" below.
 best.iter<-gbm.perf(gbm1,method="cv",plot.it=FALSE) # find a good number of trees 
 fit_from_r<-predict(gbm1, n.trees=best.iter) # get fitted values from R 
@@ -106,6 +110,7 @@ sep=",", quote=FALSE, row.names=FALSE, col.names=TRUE, na="")
 # Now use gbm2sas
 gbm2sas(
 gbm1, # gbm object from above
+data=thedata, # dataset used to fit model
 sasfile="gbmforest.sas", # name to use for SAS code file
 ntrees=best.iter, # number of trees
 mysasdata="sasdataset", # name to use for dataset within SAS
