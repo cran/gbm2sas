@@ -95,12 +95,12 @@ gbm(Y~X1+X2+X3+X4+X5+X6,
 # We will pass a csv file to SAS, to demonstrate that the tree values from gbm2sas agree 
 # with R.  Note that if train.fraction were <1 above, we would need to pass the 
 # analogous subsample to sas via the csv file below. Since the fraction used was 1, 
-# we pass the entire dataset "data" below.
+# we pass the entire dataset "thedata" below.
 best.iter<-gbm.perf(gbm1,method="cv",plot.it=FALSE) # find a good number of trees 
 fit_from_r<-predict(gbm1, n.trees=best.iter) # get fitted values from R 
 avgresponse<-gbm1$initF # we will pass gbm1's intercept to SAS via the csv file        
 numtrees<-best.iter # we will pass the total number of trees to SAS via the csv file 
-fitdata<-cbind(data,avgresponse,numtrees,fit_from_r) # augment the training data
+fitdata<-cbind(thedata,avgresponse,numtrees,fit_from_r) # augment the training data
 # Write the csv file.  We require SAS's missing() function and R agree on what values 
 # are missing.  Hence the "na" argument below, which assures SAS's proc import will 
 # assign missing values in agreement with what R considers a missing value.
