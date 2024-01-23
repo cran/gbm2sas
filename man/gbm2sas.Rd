@@ -155,6 +155,9 @@ prefix="dobranch_" # variable name for controlling branching in SAS code
 #max_discrepancy
 #---------------
 #       7.33E-15
+
+file.remove("checkdata.csv")
+file.remove("gbmforest.sas")
 }
 \references{
 Package 'gbm'. Greg Ridgeway with contributions from others.
